@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rubel Boss Post Panel</title>
+</head>
+<body>
+  <h2>নতুন পোস্ট যোগ করো</h2>
+  <input type="text" id="postInput" placeholder="রুবেল বস কি বলবে?" />
+  <button onclick="addPost()">Add Post</button>
+  <div id="status"></div>
+
+  <script>
+    const token = "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"; // কেবল নিজের জন্য!
+    const owner = "your-username"; // GitHub ইউজারনেম
+    const repo = "your-repo";      // GitHub রিপো নাম
+    const path = "data.json";      // ফাইল পাথ
+
+    async function addPost() {
+      const input = document.getElementById('postInput');
+      const newPost = input.value.trim();
+      if (!newPost) return alert('কিচ্ছু লিখলি না তো!');
+      document.getElementById('status').innerText = 'পোস্ট আপডেট হচ্ছে...';
+
+      // আগের ফাইল আনো
+      const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: 'application/vnd.github.v3+json'
+        }
+      });
+      const data = await response.json();
+      const content = JSON.parse(atob(data.content));
+      content.unshift(newPost);
+
+      // আপডেট করো
+      const updateResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: 'application/vnd.github.v3+json'
+        },
+        body: JSON.stringify({
+          message: "Update by Rubel Boss",
+          content: btoa(JSON.stringify(content, null, 2)),
+          sha: data.sha
+        })
+      });
+
+      if (updateResponse.ok) {
+        document.getElementById('status').innerText = 'রুবেল বসের পোস্ট সেভ হয়ে গেছে!';
+        input.value = '';
+      } else {
+        document.getElementById('status').innerText = 'কিছু একটা গন্ডগোল হয়েছে!';
+      }
+    }
+  </script>
+</body>
+</html>
