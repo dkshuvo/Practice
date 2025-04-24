@@ -1,7 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
+  <meta charset="UTF-8">
   <title>Rubel Boss Post Panel</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f4f8;
+      padding: 20px;
+      color: #333;
+    }
+    h2, h3 {
+      color: #222;
+    }
+    input[type="text"] {
+      width: 70%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #2c7be5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1a5dcc;
+    }
+    #status {
+      margin-top: 10px;
+      font-weight: bold;
+      color: green;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      background: #fff;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
   <h2>নতুন পোস্ট যোগ করো</h2>
@@ -13,10 +60,10 @@
   <ul id="postList"></ul>
 
   <script>
-    const token = "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"; // কইলাম না রে! বাইরের কাউরে দিবি না!
-    const owner = "dkshuvo"; // GitHub ইউজারনেম
-    const repo = "Practice"; // GitHub রিপো নাম
-    const path = "data.json"; // ফাইল পাথ
+    const token = "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"; // গোপন রাখিস, কাহারে দিস না!
+    const owner = "dkshuvo";
+    const repo = "Practice";
+    const path = "data.json";
 
     async function fetchPosts() {
       try {
@@ -31,7 +78,7 @@
         displayPosts(content);
         return { content, sha: data.sha };
       } catch (err) {
-        document.getElementById('status').innerText = 'পোস্ট লোড করতে সমস্যা হইছে!';
+        document.getElementById('status').innerText = 'পোস্ট লোড করতে সমস্যা হইছে রে বস!';
         return { content: [], sha: null };
       }
     }
@@ -49,7 +96,8 @@
     async function addPost() {
       const input = document.getElementById('postInput');
       const newPost = input.value.trim();
-      if (!newPost) return alert('কিচ্ছু লিখলি না তো!');
+      if (!newPost) return alert('কিচ্ছু লিখলি না তো রে বস!');
+
       document.getElementById('status').innerText = 'রুবেল বসের পোস্ট আপডেট হচ্ছে...';
 
       const { content, sha } = await fetchPosts();
@@ -75,11 +123,11 @@
         input.value = '';
         displayPosts(content);
       } else {
-        document.getElementById('status').innerText = 'কিছু একটা গন্ডগোল হয়েছে!';
+        document.getElementById('status').innerText = 'গিটহাবে কিছু একটা গন্ডগোল হইছে!';
       }
     }
 
-    // প্রথমেই সব পোস্ট লোড করো
+    // শুরুতেই লোড কর
     fetchPosts();
   </script>
 </body>
